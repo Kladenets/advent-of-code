@@ -9,8 +9,8 @@ import (
 )
 
 func ReadData() [][]int {
-	filepath := "levels.txt"
-	// filepath := "testLevels.txt"
+	// filepath := "levels.txt"
+	filepath := "testLevels.txt"
 	file, err := os.Open(filepath)
 	if err != nil {
 		fmt.Println("File reading error", err)

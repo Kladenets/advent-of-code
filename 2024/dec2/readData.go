@@ -8,8 +8,9 @@ import (
 	"strings"
 )
 
-func ReadData() ([]int, []int) {
-	filepath := "lists.txt"
+func ReadData() [][]int {
+	filepath := "levels.txt"
+	// filepath := "testLevels.txt"
 	file, err := os.Open(filepath)
 	if err != nil {
 		fmt.Println("File reading error", err)
@@ -27,16 +28,21 @@ func ReadData() ([]int, []int) {
 		fmt.Println("Error reading file:", err)
 	}
 
-	var a, b []int
+	var allLevels [][]int
 
 	for _, line := range lines {
 		var vals = strings.Fields(line)
-		var aInt, _ = strconv.Atoi(vals[0])
-		var bInt, _ = strconv.Atoi(vals[1])
+		var intLevels []int
 
-		a = append(a, aInt)
-		b = append(b, bInt)
+		for _, val := range vals {
+			var levelInt, _ = strconv.Atoi(val)
+			intLevels = append(intLevels, levelInt)
+		}
+
+		allLevels = append(allLevels, intLevels)
 	}
 
-	return a, b
+	// fmt.Println(allLevels)
+
+	return allLevels
 }

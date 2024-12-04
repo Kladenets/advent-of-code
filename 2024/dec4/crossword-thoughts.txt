@@ -1,0 +1,7 @@
+this feels like a good case for recursion
+we iterate through each letter, check if it's either an X or an S
+- if yes then we start the recursion, looking for the next letters in XMAS, either forward or backwards
+  - this will search all (valid) surrounding indeces for the next letter, recursing on each one it finds
+- if we get to the end of XMAS we return 1, otherwise 0? to add to the count?
+
+need some way to know what letter is next, and what letter is the end for the base case

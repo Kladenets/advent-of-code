@@ -1,3 +1,3 @@
-module dec1
+module dec3
 
 go 1.23.3

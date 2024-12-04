@@ -2,46 +2,26 @@ package main
 
 import (
 	"fmt"
-	"sort"
+	"regexp"
+	"strconv"
 )
 
 func main() {
-	getDistance()
-	getSimilarity()
+	findValidMuls()
 }
 
-func getSimilarity() {
-	var lista, listb = ReadData()
+func findValidMuls() {
+	var memory = ReadData()
 
-	var m map[int]int = make(map[int]int)
+	r := regexp.MustCompile(`mul\((\d*),(\d*)\)`)
+	matches := r.FindAllStringSubmatch(memory, -1)
 
-	for _, num := range lista {
-		m[num] = 0
+	var total int = 0
+	for _, mul := range matches {
+		var mul1, _ = strconv.Atoi(mul[1])
+		var mul2, _ = strconv.Atoi(mul[2])
+		total += (mul1 * mul2)
 	}
 
-	sim := 0
-	for _, num := range listb {
-		_, ok := m[num]
-		if ok {
-			sim += num
-		}
-	}
-
-	fmt.Println("similarity: ", sim)
-}
-
-func getDistance() {
-	var lista, listb = ReadData()
-
-	sort.Ints(lista)
-	sort.Ints(listb)
-
-	distance := 0
-	for i, num := range lista {
-		diff := num - listb[i]
-
-		distance += max(diff, -diff)
-	}
-
-	fmt.Println("distance: ", distance)
+	fmt.Println(total)
 }

@@ -7,6 +7,7 @@ import (
 
 func ReadData() string {
 	filepath := "memory.txt"
+	// filepath := "memoryTest.txt"
 	b, err := os.ReadFile(filepath) // just pass the file name
 	if err != nil {
 		fmt.Print(err)

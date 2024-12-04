@@ -1,0 +1,30 @@
+xmul(2,4)&mul[3,7]!^               o
+don't() 
+_mul(5,5)+mul(32,64](mul(11,8)un   x
+
+do()
+
+?mul(8,5))xmul(2,4)&mul[3,7]!^     x
+don't()
+_mul(5,5)+mul(32,64](mul(11,8)un   x
+
+do()
+
+?mul(8,5))                         o
+
+
+
+split string at regex for don't()
+take the first string returned save that one
+search through all substrings for do(), then split any that have do() with the regex for do()
+take the second of each of those and save them
+
+xmul(2,4)&mul[3,7]!^
+don't()
+_mul(5,5)+mul(32,64](mul(11,8)un
+do()
+?mul(8,5))
+don't()
+_mul(5,5)
+
+what if it's don't()do() - i looked and it's not haha

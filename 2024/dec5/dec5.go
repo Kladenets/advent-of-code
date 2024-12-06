@@ -15,21 +15,26 @@ func getValidUpdateMiddleNumberSum() {
 
 	for _, update := range updates {
 		var goodUpdate = true
-		for x, _ := range update {
-			for y, _ := range update {
+		for x := 0; x < len(update); x++ {
+			for y := 0; y < len(update); y++ {
 				if x == y {
 					continue
 				}
 
 				if rules[update[x]][update[y]] {
 					if x > y {
+						var temp = update[x]
+						update[x] = update[y]
+						update[y] = temp
 						goodUpdate = false
+						x = 0
+						continue
 					}
 				}
 			}
 		}
 
-		if goodUpdate {
+		if !goodUpdate {
 			middleSum += update[(len(update) / 2)]
 		}
 	}

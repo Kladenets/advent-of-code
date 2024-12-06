@@ -5,3 +5,15 @@ we iterate through each letter, check if it's either an X or an S
 - if we get to the end of XMAS we return 1, otherwise 0? to add to the count?
 
 need some way to know what letter is next, and what letter is the end for the base case
+
+
+4558 was first guess, it was too high
+- my algorithm works for the test case, but not on the actual input
+
+3243 was second guess, still too high
+- I realized that I might be double counting XMASs trying to do forward and 
+- backward at the same time, so I removed the backwards search
+- but actually since I'm only checking from top to bottom, I shouldn't be double counting...
+- why do I have so many hits then
+- I might still be double counting side to side XMASs though, how do I stop that...
+  - maybe only check X's side to side? because if it's on the same line then we'll hit X and S

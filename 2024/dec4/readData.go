@@ -1,18 +1,32 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 )
 
-func ReadData() string {
-	filepath := "crossword.txt"
-	// filepath := "crossword-test.txt"
-	b, err := os.ReadFile(filepath) // just pass the file name
+func ReadData() []string {
+	// filepath := "crossword.txt"
+	filepath := "crossword-test.txt"
+
+	file, err := os.Open(filepath)
 	if err != nil {
-		fmt.Print(err)
+		fmt.Println("File reading error", err)
 	}
 
-	str := string(b) // convert content to a 'string'
-	return str
+	defer file.Close()
+
+	var crossword []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		crossword = append(crossword, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading file:", err)
+	}
+
+	// fmt.Println(crossword)
+	return crossword
 }

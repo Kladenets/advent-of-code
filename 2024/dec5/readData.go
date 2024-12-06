@@ -8,8 +8,15 @@ import (
 	"strings"
 )
 
+const test = false
+
 func ReadPageRules() [][]bool {
-	filepath := "page-rules.txt"
+	var filepath string
+	if test {
+		filepath = "test-rules.txt"
+	} else {
+		filepath = "page-rules.txt"
+	}
 	file, err := os.Open(filepath)
 	if err != nil {
 		fmt.Println("File reading error", err)
@@ -41,9 +48,9 @@ func ReadPageRules() [][]bool {
 		fmt.Println("Error reading file:", err)
 	}
 
-	var rules = make([][]bool, maxY+1)
+	var rules = make([][]bool, 100)
 	for i := 0; i < len(rules); i++ {
-		rules[i] = make([]bool, maxX+1)
+		rules[i] = make([]bool, 100)
 	}
 
 	for i := 0; i < len(xs); i++ {
@@ -54,8 +61,14 @@ func ReadPageRules() [][]bool {
 }
 
 func ReadUpdates() [][]int {
-	filepath := "updates.txt"
-	// filepath := "test-updates.txt"
+	var filepath string
+
+	if test {
+		filepath = "test-updates.txt"
+	} else {
+		filepath = "updates.txt"
+	}
+
 	file, err := os.Open(filepath)
 	if err != nil {
 		fmt.Println("File reading error", err)

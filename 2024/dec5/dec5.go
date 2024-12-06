@@ -10,13 +10,9 @@ func main() {
 
 func getValidUpdateMiddleNumberSum() {
 	var rules = ReadPageRules()
-	// fmt.Println(rules[15][18])
-
 	var updates = ReadUpdates()
-	// fmt.Println(updates)
+	var middleSum int = 0
 
-	// var goodUpdates [][]int
-	var middleSum int
 	for _, update := range updates {
 		var goodUpdate = true
 		for x, _ := range update {
@@ -25,7 +21,7 @@ func getValidUpdateMiddleNumberSum() {
 					continue
 				}
 
-				if rules[x][y] {
+				if rules[update[x]][update[y]] {
 					if x > y {
 						goodUpdate = false
 					}
@@ -34,12 +30,9 @@ func getValidUpdateMiddleNumberSum() {
 		}
 
 		if goodUpdate {
-			// goodUpdates = append(goodUpdates, update)
 			middleSum += update[(len(update) / 2)]
 		}
 	}
 
-	// 5221 is too low hmm...
 	fmt.Println(middleSum)
-	// fmt.Println(goodUpdates)
 }

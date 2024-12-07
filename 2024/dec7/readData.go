@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const test = true
+const test = false
 
 // returns a list of totals, and a list of lists of operands
 func ReadData() ([]int, [][]int) {

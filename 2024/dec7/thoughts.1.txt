@@ -1,0 +1,47 @@
+what is the best way to get permutations of *,+
+- I guess first thing would be find the number of operators (operands - 1)
+- once we know that, it's easy to get the number of permutations, 2^n 
+  - but how to get them all...
+
+3 [*,+]
+
+base case length of 1
+
+permutations for one operand
+- +
+- *
+
+permutations for 2 operands
+- +,+
+- +,*
+- *,+
+- *,*
+
+permutations for 3 operands
+- +,+,+
+- +,+,*
+- +,*,+
+- +,*,*
+- *,+,+
+- *,+,*
+- *,*,+
+- *,*,*
+
+maybe recursion makes sense
+
+if one operand then we just return the list of options
+recurse(1, [+,*]) 
+- return [+,*]
+
+if two operands, 
+recurse(2, [+,*])
+- loop through the list and the result of recurse, add 
+    lists[][]
+   
+    // i is one of the operands
+    for i in operands  
+        // j is one of the permutations
+        for j in recurse(count-1)
+            lists += j+i
+        
+    return lists

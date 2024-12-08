@@ -9,3 +9,12 @@ the way to find the loops is closing boxes
     - if I end up back at the guard I increment the count and exit to the original loop and continue
 
 I think this will work, it's kind of a brute force approach, but a little more informed
+
+new approach
+- can I go through the path, knowing the direction at each point, check if I put an obstacle in front of it and
+  turn, will I reconnect with another path moving in the same direction?
+- if I have, then I know I've entered a loop
+
+
+ok so actually I can do this in one pass I think
+- I need to modifiy the condition where I check for 'X', because now my path will hold the direction that I was moving

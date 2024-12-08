@@ -78,7 +78,7 @@ func followGuardsPath(m [][]byte, startRow, startColumn int) int {
 		// if the next step is out of bounds in either direction, we've exited the map successfully
 		if (row+rowS > len(m)-1 || row+rowS < 0) || (col+colS > len(m[row+rowS])-1 || col+colS < 0) {
 			insideMap = false
-			m[row][col] = 'X'
+			m[row][col] = guard
 			totalUniquePaths++
 			continue
 		}
@@ -101,26 +101,10 @@ func followGuardsPath(m [][]byte, startRow, startColumn int) int {
 		}
 
 		// fmt.Println("here", row, col)
-		// have we been to the nextStep already
-		if nextStep == 'X' {
-			// move to it but do not increment totalUniquePaths, do not turn, do not update direction, do not update guard
-			// there's probably some logic to know what possible outcomes can happen if we hit a step we've hit before
-			// but I don't want to work them out right now
-			m[row][col] = 'X'
-			row = row + rowS
-			col = col + colS
-
-			// update the guard position
-			m[row][col] = guard
-
-			continue
-		}
-
-		// fmt.Println("here", row, col)
 		// if nextStep is open and we haven't been there
 		if nextStep == '.' {
 			// update old position with an 'X'
-			m[row][col] = 'X'
+			m[row][col] = guard
 
 			// move to nextStep
 			row = row + rowS
@@ -131,6 +115,22 @@ func followGuardsPath(m [][]byte, startRow, startColumn int) int {
 
 			// add one to total
 			totalUniquePaths++
+			continue
+		}
+
+		// fmt.Println("here", row, col)
+		// have we been to the nextStep already
+		if nextStep == '^' || nextStep == '>' || nextStep == 'v' || nextStep == '<' {
+			// move to it but do not increment totalUniquePaths, do not turn, do not update direction, do not update guard
+			// there's probably some logic to know what possible outcomes can happen if we hit a step we've hit before
+			// but I don't want to work them out right now
+			m[row][col] = guard
+			row = row + rowS
+			col = col + colS
+
+			// update the guard position
+			m[row][col] = guard
+
 			continue
 		}
 	}

@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const test = false
+const test = true
 
 func ReadMap() ([][]byte, int, int) {
 	var filepath string

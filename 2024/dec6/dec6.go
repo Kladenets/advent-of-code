@@ -9,10 +9,10 @@ func main() {
 	// fmt.Println(startX, startY)
 
 	prettyPrintMap(m)
-	var total = followGuardsPath(m, startX, startY)
+	var totalUniquePaths, totalNewObstacles = followGuardsPath(m, startX, startY)
 	fmt.Println()
 	prettyPrintMap(m)
-	fmt.Println(total)
+	fmt.Println(totalUniquePaths, totalNewObstacles)
 }
 
 var turnRight = map[byte]byte{
@@ -56,7 +56,11 @@ func defaultTurn(dir byte) byte {
 	return turn(dir, 1)
 }
 
-func followGuardsPath(m [][]byte, startRow, startColumn int) int {
+type Coordinate struct {
+	row, col int
+}
+
+func followGuardsPath(m [][]byte, startRow, startColumn int) (int, int) {
 	var insideMap bool = true
 	// guard is the byte representing the guard, one of ^, >, v, <
 	var guard = m[startRow][startColumn]
@@ -66,13 +70,67 @@ func followGuardsPath(m [][]byte, startRow, startColumn int) int {
 	var row int = startRow
 	var col int = startColumn
 	// this tracks the unique path steps we took to get out of the map (crossing a path again does not count twice)
-	var totalUniquePaths int = 0
+	var totalUniquePaths, totalNewObstacles int = 0, 0
 
 	for insideMap {
 		// fmt.Println(string(guard), direction, currentDir, row, col)
 		// rowS = row slope, ys = col slope
 		var rowS = currentDir[0]
 		var colS = currentDir[1]
+
+		//before we do anything, check if we put an obstacle in from of us and turn, will we intersect the same character
+		var checkIntersection = true
+		var interGuard = defaultTurn(guard)
+		var interDir, firstInterGuard = direction[interGuard], guard
+		var interRow, interCol = row, col
+		var interPaths map[Coordinate]byte = map[Coordinate]byte{}
+		var firstInterRow, firstInterCol = interRow + interDir[0], interCol + interDir[1]
+
+		for checkIntersection {
+			var interRowS = interDir[0]
+			var interColS = interDir[1]
+			// fmt.Println(interRow, interCol)
+			var interRowTest, interColTest = interRow + interRowS, interCol + interColS
+			var interCoord = Coordinate{row: interRowTest, col: interColTest}
+
+			if (interRowTest > len(m)-1 || interRowTest < 0) || (interColTest > len(m[interRowTest])-1 || interColTest < 0) {
+				checkIntersection = false
+				continue
+			}
+
+			var interNextStep = m[interRowTest][interColTest]
+			// fmt.Println((interRowTest == firstInterRow && interColTest == firstInterCol) && firstInterGuard == interGuard)
+			// fmt.Println(interNextStep == interGuard)
+			if interNextStep == interGuard || ((interRowTest == firstInterRow && interColTest == firstInterCol) && firstInterGuard == interGuard) {
+				// if we find the next step that is the same as our current guard, or the starting position of this obstacle, exit the loop and count it
+				totalNewObstacles++
+				checkIntersection = false
+				// fmt.Println(row, col)
+				continue
+			}
+
+			if interNextStep == '#' || (interRowTest == firstInterRow && interColTest == firstInterCol) {
+				// if we run into an obstacle we know it's not a loop, exit
+				// checkIntersection = false
+				interGuard = defaultTurn(interGuard)
+				interDir = direction[interGuard]
+				continue
+			}
+
+			var interCoordTest, _ = interPaths[interCoord]
+			// if we find a loop outside of the path that we were on previously, exit the loop and count it
+			if interCoordTest == interGuard {
+				// we have created our own loop
+				totalNewObstacles++
+				checkIntersection = false
+				// fmt.Println(row, col)
+				continue
+			}
+
+			interPaths[interCoord] = interGuard
+			interRow = interRowTest
+			interCol = interColTest
+		}
 
 		// fmt.Println("here", row, col)
 		// if the next step is out of bounds in either direction, we've exited the map successfully
@@ -122,8 +180,6 @@ func followGuardsPath(m [][]byte, startRow, startColumn int) int {
 		// have we been to the nextStep already
 		if nextStep == '^' || nextStep == '>' || nextStep == 'v' || nextStep == '<' {
 			// move to it but do not increment totalUniquePaths, do not turn, do not update direction, do not update guard
-			// there's probably some logic to know what possible outcomes can happen if we hit a step we've hit before
-			// but I don't want to work them out right now
 			m[row][col] = guard
 			row = row + rowS
 			col = col + colS
@@ -135,7 +191,7 @@ func followGuardsPath(m [][]byte, startRow, startColumn int) int {
 		}
 	}
 
-	return totalUniquePaths
+	return totalUniquePaths, totalNewObstacles
 }
 
 func prettyPrintMap(m [][]byte) {

@@ -18,3 +18,13 @@ new approach
 
 ok so actually I can do this in one pass I think
 - I need to modifiy the condition where I check for 'X', because now my path will hold the direction that I was moving
+
+- first guess 466 was too low, got 465 and added one to see if I was missing the end
+- second guess 814 was also too low, got 813 and added one 
+    - I didn't stop the search at an obstacle
+- third guess was 1895, still too low?
+- fourth guess was 5814
+- 5th was 1898
+- 6th was 2183
+    - realized I wasn't counting the loops back to the added obstacle
+- 7th was 1908
